@@ -16,6 +16,7 @@ import (
 	"github.com/meshplus/bitxhub/internal/executor/contracts"
 	"github.com/meshplus/bitxhub/internal/ledger"
 	"github.com/meshplus/bitxhub/internal/model/events"
+	"github.com/meshplus/bitxhub/internal/repo"
 	"github.com/meshplus/bitxhub/pkg/proof"
 	"github.com/meshplus/bitxhub/pkg/vm/boltvm"
 	vm "github.com/meshplus/eth-kit/evm"
@@ -52,13 +53,14 @@ type BlockExecutor struct {
 	evm         *vm.EVM
 	evmChainCfg *params.ChainConfig
 	gasLimit    uint64
+	config      repo.Config
 }
 
 // New creates executor instance
-func New(chainLedger *ledger.Ledger, logger logrus.FieldLogger, typ string, gasLimit uint64) (*BlockExecutor, error) {
-	ibtpVerify := proof.New(chainLedger, logger)
+func New(chainLedger *ledger.Ledger, logger logrus.FieldLogger, config repo.Config) (*BlockExecutor, error) {
 
-	txsExecutor, err := agency.GetExecutorConstructor(typ)
+	ibtpVerify := proof.New(chainLedger, logger)
+	txsExecutor, err := agency.GetExecutorConstructor(config.Executor.Type)
 	if err != nil {
 		return nil, err
 	}
@@ -79,12 +81,13 @@ func New(chainLedger *ledger.Ledger, logger logrus.FieldLogger, typ string, gasL
 		currentBlockHash: chainLedger.GetChainMeta().BlockHash,
 		wasmInstances:    make(map[string]*wasmer.Instance),
 		evmChainCfg:      newEVMChainCfg(),
-		gasLimit:         gasLimit,
+		config:           config,
+		gasLimit:         config.GasLimit,
 	}
 
 	blockExecutor.evm = newEvm(1, uint64(0), blockExecutor.evmChainCfg, blockExecutor.ledger, blockExecutor.ledger.ChainLedger)
 
-	blockExecutor.txsExecutor = txsExecutor(blockExecutor.applyTx, registerBoltContracts, logger)
+	blockExecutor.txsExecutor = txsExecutor(blockExecutor.applyTx, blockExecutor.registerBoltContracts, logger)
 
 	return blockExecutor, nil
 }
@@ -240,7 +243,6 @@ func (exec *BlockExecutor) persistData() {
 			"elapse": time.Since(now),
 		}).Info("Persisted block")
 	}
-	exec.ledger.Close()
 }
 
 func registerBoltContracts() map[string]agency.Contract {
