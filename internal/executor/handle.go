@@ -321,6 +321,10 @@ func (exec *BlockExecutor) applyTransaction(i int, tx pb.Transaction, invalidRea
 			receipt.Status = pb.Receipt_SUCCESS
 			receipt.Ret = ret
 		}
+
+		//internal invoke evm
+		receipt.EvmLogs = exec.ledger.GetLogs(*tx.GetHash())
+		receipt.Bloom = ledger.CreateBloom(ledger.EvmReceipts{receipt})
 		return receipt
 	case *types2.EthTransaction:
 		ethTx := tx.(*types2.EthTransaction)
@@ -344,7 +348,7 @@ func (exec *BlockExecutor) applyBxhTransaction(i int, tx *pb.BxhTransaction, inv
 
 	if tx.IsIBTP() {
 		ctx := vm.NewContext(tx, uint64(i), nil, exec.ledger, exec.logger)
-		instance := boltvm.New(ctx, exec.validationEngine, exec.getContracts(opt))
+		instance := boltvm.New(ctx, exec.validationEngine, nil, exec.getContracts(opt))
 		return instance.HandleIBTP(tx.GetIBTP())
 	}
 
@@ -370,7 +374,7 @@ func (exec *BlockExecutor) applyBxhTransaction(i int, tx *pb.BxhTransaction, inv
 		switch data.VmType {
 		case pb.TransactionData_BVM:
 			ctx := vm.NewContext(tx, uint64(i), data, exec.ledger, exec.logger)
-			instance = boltvm.New(ctx, exec.validationEngine, exec.getContracts(opt))
+			instance = boltvm.New(ctx, exec.validationEngine, exec.evm, exec.getContracts(opt))
 		case pb.TransactionData_XVM:
 			var err error
 			ctx := vm.NewContext(tx, uint64(i), data, exec.ledger, exec.logger)

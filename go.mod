@@ -28,14 +28,15 @@ require (
 	github.com/juju/ratelimit v1.0.1
 	github.com/libp2p/go-libp2p-core v0.5.6
 	github.com/magiconair/properties v1.8.4
-	github.com/meshplus/bitxhub-core v1.3.1-0.20210604120052-4ade98a9c4f1
+	github.com/meshplus/bitxhub-core v1.3.1-0.20210609023845-fbfb816fd35d
 	github.com/meshplus/bitxhub-kit v1.2.1-0.20210524063043-9afae78ac098
-	github.com/meshplus/bitxhub-model v1.2.1-0.20210604034838-b7e8a66d25a2
+	github.com/meshplus/bitxhub-model v1.2.1-0.20210609023023-857e3335100a
 	github.com/meshplus/bitxid v0.0.0-20210412025850-e0eaf0f9063a
 	github.com/meshplus/did-registry v0.0.0-20210413035015-509c6c3a0bae
 	github.com/meshplus/eth-kit v0.0.0-20210604035214-93ca73391238
 	github.com/meshplus/go-libp2p-cert v0.0.0-20210125063330-7c25fd5b7a49
 	github.com/meshplus/go-lightp2p v0.0.0-20210120082108-df5a536a6192
+	github.com/miguelmota/go-solidity-sha3 v0.1.1
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/multiformats/go-multiaddr v0.3.0
 	github.com/orcaman/concurrent-map v0.0.0-20190826125027-8c72a8bb44f6

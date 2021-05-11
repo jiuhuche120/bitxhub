@@ -108,7 +108,7 @@ func GenerateBitXHubWithoutOrder(rep *repo.Repo) (*BitXHub, error) {
 		return nil, fmt.Errorf("blockfile initialize: %w", err)
 	}
 
-	appchainClient, err := appchain.NewAppchainClient(repo.GetStoragePath(repoRoot, "eth_storage"), loggers.Logger(loggers.Executor))
+	appchainClient, err := appchain.NewAppchainClient(rep.Config.EthRopsten, repo.GetStoragePath(repoRoot, "appchain_client"), loggers.Logger(loggers.Executor))
 	if err != nil {
 		return nil, err
 	}

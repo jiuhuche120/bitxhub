@@ -43,6 +43,7 @@ type Config struct {
 	Executor `json:"executor"`
 	Ledger   `json:"ledger"`
 	Genesis  `json:"genesis"`
+	Appchain `json:"appchain"`
 	Security Security `toml:"security" json:"security"`
 }
 
@@ -76,6 +77,14 @@ type Limiter struct {
 	Interval time.Duration `toml:"interval" json:"interval"`
 	Quantum  int64         `toml:"quantum" json:"quantum"`
 	Capacity int64         `toml:"capacity" json:"capacity"`
+}
+
+type Appchain struct {
+	EthRopsten EthRopsten `toml:"eth_ropsten" json:"eth_ropsten"`
+}
+
+type EthRopsten struct {
+	Header string `toml:"header" json:"header"`
 }
 
 type Gateway struct {

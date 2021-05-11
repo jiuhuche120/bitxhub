@@ -59,7 +59,7 @@ func TestNew(t *testing.T) {
 	stateLedger.EXPECT().StateDB().Return(mockLedger).AnyTimes()
 
 	logger := log.NewWithModule("executor")
-	executor, err := New(mockLedger, logger, executorType, gasLimit)
+	executor, err := New(mockLedger, logger, nil, repo.Config{Genesis: repo.Genesis{GasLimit: gasLimit}, Executor: repo.Executor{Type: executorType}})
 	assert.Nil(t, err)
 	assert.NotNil(t, executor)
 
@@ -123,7 +123,7 @@ func TestBlockExecutor_ExecuteBlock(t *testing.T) {
 	chainLedger.EXPECT().Close().AnyTimes()
 	logger := log.NewWithModule("executor")
 
-	exec, err := New(mockLedger, logger, executorType, gasLimit)
+	exec, err := New(mockLedger, logger, nil, repo.Config{Genesis: repo.Genesis{GasLimit: gasLimit}, Executor: repo.Executor{Type: executorType}})
 	assert.Nil(t, err)
 
 	// mock data for block
@@ -235,7 +235,7 @@ func TestBlockExecutor_ApplyReadonlyTransactions(t *testing.T) {
 	stateLedger.EXPECT().Finalise(gomock.Any()).AnyTimes()
 	logger := log.NewWithModule("executor")
 
-	exec, err := New(mockLedger, logger, executorType, gasLimit)
+	exec, err := New(mockLedger, logger, nil, repo.Config{Genesis: repo.Genesis{GasLimit: gasLimit}, Executor: repo.Executor{Type: executorType}})
 	assert.Nil(t, err)
 
 	// mock data for block
@@ -328,7 +328,8 @@ func TestBlockExecutor_ExecuteBlock_Transfer(t *testing.T) {
 	err = ldg.PersistExecutionResult(mockBlock(1, nil), nil, &pb.InterchainMeta{})
 	require.Nil(t, err)
 
-	executor, err := New(ldg, log.NewWithModule("executor"), executorType, gasLimit)
+	executor, err := New(ldg, log.NewWithModule("executor"), nil, repo.Config{Genesis: repo.Genesis{GasLimit: gasLimit}, Executor: repo.Executor{Type: executorType}})
+
 	require.Nil(t, err)
 	err = executor.Start()
 	require.Nil(t, err)
@@ -353,7 +354,7 @@ func TestBlockExecutor_ExecuteBlock_Transfer(t *testing.T) {
 	viewLedger, err := ledger.New(createMockRepo(t), blockchainStorage, ldb, blockFile, accountCache, log.NewWithModule("ledger"))
 	require.Nil(t, err)
 
-	exec, err := New(viewLedger, log.NewWithModule("executor"), executorType, gasLimit)
+	exec, err := New(viewLedger, log.NewWithModule("executor"), nil, repo.Config{Genesis: repo.Genesis{GasLimit: gasLimit}, Executor: repo.Executor{Type: executorType}})
 	require.Nil(t, err)
 
 	tx := mockTransferTx(t)

@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"sort"
 
+	"github.com/meshplus/bitxhub/internal/repo"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/consensus/clique"
 	"github.com/ethereum/go-ethereum/consensus/ethash"
@@ -61,7 +63,7 @@ func NewRinkebyOracle(storagePath string, logger logrus.FieldLogger) (*EthLightC
 }
 
 // NewRopstenOracle inits with ropsten block 10105112, receives above the 10105112 headers
-func NewRopstenOracle(storagePath string, readOnly bool, logger logrus.FieldLogger) (*EthLightChainOracle, error) {
+func NewRopstenOracle(ropsten repo.EthRopsten, storagePath string, readOnly bool, logger logrus.FieldLogger) (*EthLightChainOracle, error) {
 	db, err := leveldb.New(storagePath, 256, 0, "", readOnly)
 	if err != nil {
 		return nil, err
@@ -70,8 +72,10 @@ func NewRopstenOracle(storagePath string, readOnly bool, logger logrus.FieldLogg
 
 	// block 10105112
 	header := types.Header{}
-	err = header.UnmarshalJSON([]byte(RopstenHeader))
-
+	err = header.UnmarshalJSON([]byte(ropsten.Header))
+	if err != nil {
+		return nil, err
+	}
 	if head := rawdb.ReadHeadHeaderHash(database); head == (common.Hash{}) {
 		core.DefaultRopstenGenesisBlock().MustCommit(database)
 		rawdb.WriteHeader(database, &header)
