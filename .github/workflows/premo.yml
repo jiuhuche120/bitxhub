@@ -47,8 +47,8 @@ jobs:
           password: ${{ secrets.MAILPASSWORD }}
           subject: Bxh-teser Test Report
           body: |
-          ${{ github.actor }} , the pull_request ${{ github.head_ref }} to ${{ github.base_ref }}
-          the report url is http://10.1.40.197:8888/reports/${{ github.base_ref }}/report${{ env.REPORT_DATE }}
+            ${{ github.actor }} , the pull_request ${{ github.head_ref }} to ${{ github.base_ref }}
+            the report url is http://10.1.40.197:8888/reports/${{ github.base_ref }}/report${{ env.REPORT_DATE }}
           to: zhuweijie@hyperchain.cn
           from: GitHub Actions
 
