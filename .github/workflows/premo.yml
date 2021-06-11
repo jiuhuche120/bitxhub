@@ -25,7 +25,6 @@ jobs:
           cd scripts
           echo ${{ github.base_ref }}
           bash bxh_test.sh -b ${{ github.base_ref }}
-          ls ../
 
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Hangzhou' date '+%Y%m%d%H%M%S')" >> $GITHUB_ENV
@@ -36,7 +35,7 @@ jobs:
         if: ${{ always() }}
         with:
             allure-server-url: 'http://10.1.40.197:8888/'
-            allure-results: '../../premo/tester/bxh_tester/allure-results'
+            allure-results: './premo/tester/bxh_tester/allure-results'
             path: ${{ github.base_ref }}/report${{ env.REPORT_DATE }}
 
       - name: Send Mail
