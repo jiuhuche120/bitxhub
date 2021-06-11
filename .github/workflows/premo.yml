@@ -36,7 +36,7 @@ jobs:
         if: ${{ always() }}
         with:
             allure-server-url: 'http://10.1.40.197:8888/'
-            allure-results: '../premo/tester/bxh_tester/allure-results'
+            allure-results: '../../premo/tester/bxh_tester/allure-results'
             path: ${{ github.base_ref }}/report${{ env.REPORT_DATE }}
 
       - name: Send Mail
