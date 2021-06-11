@@ -36,7 +36,6 @@ function bitxhub_tester() {
     cd premo && make install && premo init
     print_blue "Start test"
     make bitxhub-tester REPORT=Y
-    tree
 }
 function bxh_test() {
     prepare
