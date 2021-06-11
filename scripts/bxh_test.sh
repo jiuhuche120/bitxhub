@@ -34,14 +34,14 @@ function bitxhub_tester() {
     echo "$BRANCH_NAME"
     BRANCH_NAME="feat/update-premo"
     cd ../ && git clone -b "$BRANCH_NAME" https://github.com/meshplus/premo.git
-    cd premo && make install && premo init
-    print_blue "Start test"
-    make bitxhub-tester REPORT=Y
+#    cd premo && make install && premo init
+#    print_blue "Start test"
+#    make bitxhub-tester REPORT=Y
 }
 function bxh_test() {
     prepare
 #    startBitxhub
-#    bitxhub_tester
+    bitxhub_tester
 }
 while getopts "h?b:" opt; do
   case "$opt" in
