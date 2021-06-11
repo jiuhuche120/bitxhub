@@ -34,7 +34,7 @@ jobs:
         # always() needed because we want report for failed tests as well
         if: ${{ always() }}
         with:
-            allure-server-url: 'http://10.1.40.197:8888/'
+            allure-server-url: 'http://125.124.95.152:8888/'
             allure-results: './premo/tester/bxh_tester/allure-results'
             path: ${{ github.base_ref }}/report${{ env.REPORT_DATE }}
 
@@ -48,7 +48,7 @@ jobs:
           subject: Bxh-teser Test Report
           body: |
             ${{ github.actor }} , the pull_request ${{ github.head_ref }} to ${{ github.base_ref }}
-            the report url is http://10.1.40.197:8888/reports/${{ github.base_ref }}/report${{ env.REPORT_DATE }}
+            the report url is http://125.124.95.152:8888/reports/${{ github.base_ref }}/report${{ env.REPORT_DATE }}
           to: zhuweijie@hyperchain.cn
           from: GitHub Actions
 
