@@ -40,8 +40,8 @@ function bitxhub_tester() {
 }
 function bxh_test() {
     prepare
-    startBitxhub
-    bitxhub_tester
+#    startBitxhub
+#    bitxhub_tester
 }
 while getopts "h?b:" opt; do
   case "$opt" in
