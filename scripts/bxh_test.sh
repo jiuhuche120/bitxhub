@@ -35,7 +35,8 @@ function bitxhub_tester() {
     cd ../ && git clone -b "$BRANCH_NAME" https://github.com/meshplus/premo.git
     cd premo && make install && premo init
     print_blue "Start test"
-    make bitxhub-tester
+    make bitxhub-tester REPORT=Y
+    tree
 }
 function bxh_test() {
     prepare
