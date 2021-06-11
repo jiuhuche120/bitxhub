@@ -25,7 +25,7 @@ jobs:
           cd scripts
           echo ${{ github.base_ref }}
           bash bxh_test.sh -b ${{ github.base_ref }}
-          tree ../
+          ls ../../
 
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Hangzhou' date '+%Y%m%d%H%M%S')" >> $GITHUB_ENV
