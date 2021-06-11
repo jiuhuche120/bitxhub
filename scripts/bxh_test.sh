@@ -27,15 +27,16 @@ function startBitxhub() {
     cd ../ && make install && cd scripts
     print_blue "Start Solo"
     nohup bash solo.sh 2>gc.log 1>solo.log &
-    sleep 20
+    sleep 100
 }
 function bitxhub_tester() {
     print_blue "Start git clone Premo"
     echo "$BRANCH_NAME"
+    BRANCH_NAME="feat/update-premo"
     cd ../ && git clone -b "$BRANCH_NAME" https://github.com/meshplus/premo.git
     cd premo && make install && premo init
     print_blue "Start test"
-    make bitxhub-tester
+    make bitxhub-tester REPORT=Y
 }
 function bxh_test() {
     prepare
